@@ -1,0 +1,46 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+#install.packages("tidyverse")
+library(tidyverse)
+library(cluster)
+library(fpc)
+
+
+
+data = read.csv2("~/Documents/hackthon/code/MyData.csv", sep = ",")
+
+data$X <- NULL
+#data$name_img <- NULL
+data <- data[which(!data$sizeRatio=="Inf"),]
+data <- na.omit(data)
+
+for(i in 2:12){
+data[,i] <- as.numeric(data[,i])
+}
+class(data$V4)
+summary(data[,2:12])
+
+fit <- kmeans(data[,2:12],centers = 30)
+#
+# summary(fit$cluster)
+plotcluster(data[,2:12],fit$cluster)
+#
+
+# # get cluster means
+aggregate(data[,2:12],by=list(fit$cluster),FUN=mean)
+# # append cluster assignment
+data2 <- data.frame(data, fit$cluster)
+# Write CSV in R
+write.csv(data2, file = "~/Documents/hackthon/code/Cluster.csv")
+# install.packages("cluster")
+# install.packages("fpc")
+# library(cluster)
+# library(fpc)
+
+```
+
+

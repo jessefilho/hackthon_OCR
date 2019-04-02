@@ -120,7 +120,7 @@ sizeRatio <- unlist(sizeR, use.names=FALSE)
 
 
 
-dataFrame <- data.frame(whiteRatio,name_img,sizeRatio,outV)
+dataFrame <- data.frame(name_img,whiteRatio,sizeRatio,outV)
 summary(dataFrame)
 
 # Write CSV in R
