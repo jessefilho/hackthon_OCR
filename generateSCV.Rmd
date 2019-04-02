@@ -65,7 +65,8 @@ name<-list()
 sizeR <- list()
 asd <- NULL
 
-
+bloc <- 10
+out<-list()
 
 for (i in 1:n){
   list_of_white[i] <- pourcentage(readPNG(images[i]))
@@ -75,10 +76,37 @@ for (i in 1:n){
   # text <- tesseract::ocr(images[i], engine = eng)
   # firstPred[i] <- cat(text)
   
+  # Pourcentage de blanc par bloc
+  # Division de l'image par 10 blocs
+  img <- readPNG(images[i])
+  x<-vector()
+  y<-vector()
+  f<-vector()
+  
+  # Retourne une liste des pourcentages de blanc par chaque ligne
+  for (j in 1:length(img[,1])){
+    l <- length(img[j,])
+    s <- sum(img[j,])
+    r <- s/l
+    x[j]<-r
+  }
+  
+  # Retourne une liste de pourcentage de blanc par chaque bloc
+  z<-length(x)%/%bloc
+  for (o in 1:bloc){
+    y<-split(x, ceiling(seq_along(x)/z))[o]
+    f[o]<-mean(unlist(y))
+  }
+  out[[i]]<-f
+  
   
 }
 
-
+# Liste des listes en data frame
+max_length <- max(unlist(lapply (out, FUN = length)))
+out <- sapply (out, function (x) {length (x) <- max_length; return (x)})
+out <- t(out)
+outV <- as.data.frame(out)
 #test <- sample(list_images, 164) 
 
 
@@ -92,7 +120,7 @@ sizeRatio <- unlist(sizeR, use.names=FALSE)
 
 
 
-dataFrame <- data.frame(whiteRatio,name_img,sizeRatio)
+dataFrame <- data.frame(whiteRatio,name_img,sizeRatio,outV)
 summary(dataFrame)
 
 # Write CSV in R
