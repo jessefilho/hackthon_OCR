@@ -36,11 +36,67 @@ aggregate(data[,2:12],by=list(fit$cluster),FUN=mean)
 data2 <- data.frame(data, fit$cluster)
 # Write CSV in R
 write.csv(data2, file = "~/Documents/hackthon/code/Cluster.csv")
-# install.packages("cluster")
-# install.packages("fpc")
-# library(cluster)
-# library(fpc)
 
+
+
+
+```
+```{r}
+
+
+lettre_df <-data2
+
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+lettre_df$continent[lettre_df$fit.cluster=='1'] <- 'a'
+
+## 75% of the sample size
+smp_size <- floor(0.6 * nrow(lettre_df))
+
+## set the seed to make your partition reproducible
+set.seed(123)
+train_ind <- sample(seq_len(nrow(lettre_df)), size = smp_size)
+
+train <- lettre_df[train_ind, ]
+test <- lettre_df[-train_ind, ]
+
+summary(train[,2:12])
+summary(test[,2:12])
+```
+
+```{r}
+library(caret)
+
+
+control <- trainControl(method="repeatedcv", number=10, repeats=3, savePredictions=TRUE, classProbs=TRUE)
+
+formula_knn <- fit.cluster~ .
+metric <- "Accuracy"
+seed <- 7
+
+#SVM Radial Tunned
+set.seed(seed)
+fit.knn_train <- train(formula_knn,
+                             data = train[,2:12],
+                             method = "knn",
+                             gamma= 1,
+                             trControl=control,
+                             preProcess = c("YeoJohnson", "scale"),
+                             tuneLength = 10)
+fit.knn_train
+#plot(fit.svmRadial_train)
 ```
 
 
