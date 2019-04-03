@@ -7,7 +7,7 @@ output: html_notebook
 library(png)
 library(tesseract)
 
-dir_images <- "~/Documents/hackthon/data/first-data-set/images"
+dir_images <- "~/Documents/hackthon/data/first-data-set/imagesNEW"
 eng <- tesseract("eng")
 setwd(dir_images)
 images <- dir()
@@ -124,7 +124,7 @@ dataFrame <- data.frame(name_img,whiteRatio,sizeRatio,outV)
 summary(dataFrame)
 
 # Write CSV in R
-write.csv(dataFrame, file = "~/Documents/hackthon/code/MyData.csv")
+write.csv(dataFrame, file = "~/Documents/hackthon/code/ProfData.csv")
 
 ```
 
